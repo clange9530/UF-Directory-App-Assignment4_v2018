@@ -16,7 +16,6 @@ var listingSchema = new Schema({
     longitude: Number
   },
   address: String
-
 },
 {
   timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}
