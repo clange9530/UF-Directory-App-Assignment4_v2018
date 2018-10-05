@@ -37,7 +37,7 @@ describe('Listings CRUD tests', function() {
           .expect(200)
           .end(function(err, res) {
             should.not.exist(err);
-            should.exist(res);
+            should.exist(res.body);
             res.body.name.should.equal('Library West');
             res.body.code.should.equal('LBW');
             res.body.address.should.equal('1545 W University Ave, Gainesville, FL 32603, United States');

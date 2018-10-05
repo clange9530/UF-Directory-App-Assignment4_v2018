@@ -9,7 +9,7 @@ var path = require('path'),
 
 module.exports.init = function() {
   //connect to database
-  mongoose.connect(config.db.uri);
+  mongoose.connect(config.db.uri, {useMongoClient: true});
 
   //initialize app
   var app = express();
@@ -29,7 +29,12 @@ module.exports.init = function() {
   
 
   /* use the listings router for requests to the api */
-
+  app.get('/api/listings', listingsRouter, function(req, res){
+    res.send(req.get('/'));
+  });
+  app.get('/api/listings/:listingsID', listingsRouter, function(req, res){
+    res.send(req.get('/:listingsID'));
+  });
 
   /* go to homepage for all routes not specified */ 
 

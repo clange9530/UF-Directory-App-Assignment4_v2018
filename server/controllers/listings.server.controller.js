@@ -12,12 +12,11 @@ var mongoose = require('mongoose'),
   from assignment 3 https://scotch.io/tutorials/using-mongoosejs-in-node-js-and-mongodb-applications
  */
 
-/* Create a listing */
-exports.create = function(req, res) {
 
+/* Create a listing */
+module.exports.create = function(req, res) {
   /* Instantiate a Listing */
   var listing = new Listing(req.body);
-
   /* save the coordinates (located in req.results if there is an address property) */
   if(req.results) {
     listing.coordinates = {
@@ -25,7 +24,6 @@ exports.create = function(req, res) {
       longitude: req.results.lng
     };
   }
-
   /* Then save the listing */
   listing.save(function(err) {
     if(err) {
@@ -38,38 +36,46 @@ exports.create = function(req, res) {
 };
 
 /* Show the current listing */
-exports.read = function(req, res) {
+module.exports.read = function(req, res) {
+  req.listingByID(req.id);
+  if(err){
+    res.status(404).send(err);
+  } else {
+    res.send(req.listing);
+  }
   /* send back the listing as json from the request */
-  res.json(req.listing);
 };
 
 /* Update a listing */
-exports.update = function(req, res) {
-  var listing = req.listing;
-  listing = req.body;
+module.exports.update = function(req, res) {
   /* Replace the article's properties with the new properties found in req.body */
   /* save the coordinates (located in req.results if there is an address property) */
   /* Save the article */
 };
 
 /* Delete a listing */
-exports.delete = function(req, res) {
+module.exports.delete = function(req, res) {
   var listing = req.listing;
   
   /* Remove the article */
 };
 
 /* Retreive all the directory listings, sorted alphabetically by listing code */
-exports.list = function(req, res) {
+module.exports.list = function(req, res) {
   /* Your code here */
+  var listingData = Listing.find({}, function(err, listing){
+    if(err){
+      res.status(404).send(err);
+    } else {
+      res.listingData[i] = listing;
+  }}).json();
   if(err){
     res.status(404).send(err);
-  }else{
-    Listing.find().then(listings => {
-      res.send(listings);
-    })
+  } else {
+    res.json(listingData);
   }
 };
+
 
 /* 
   Middleware: find a listing by its ID, then pass it to the next request handler. 
@@ -78,7 +84,7 @@ exports.list = function(req, res) {
         bind it to the request object as the property 'listing', 
         then finally call next
  */
-exports.listingByID = function(req, res, next, id) {
+module.exports.listingByID = function(req, res, next, id) {
   Listing.findById(id).exec(function(err, listing) {
     if(err) {
       res.status(400).send(err);
