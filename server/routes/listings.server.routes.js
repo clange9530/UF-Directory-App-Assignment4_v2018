@@ -15,7 +15,7 @@ router.route('/')
 /*
   The ':' specifies a URL parameter. 
  */
-router.route('/:listingId')
+router.route('/:listingsId')
   .get(listings.read)
   .put(getCoordinates, listings.update)
   .delete(listings.delete);
@@ -33,6 +33,6 @@ router.route('/:listingId')
   It will then pass control to the routing function specified above, where it will either 
   get, update, or delete that specific listing (depending on the HTTP verb specified)
  */
-router.param('listingId', listings.listingByID);
+router.param('listingsId', listings.listingByID);
 
 module.exports = router;

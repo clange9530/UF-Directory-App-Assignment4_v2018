@@ -37,43 +37,49 @@ module.exports.create = function(req, res) {
 
 /* Show the current listing */
 module.exports.read = function(req, res) {
-  req.listingByID(req.id);
-  if(err){
-    res.status(404).send(err);
-  } else {
-    res.send(req.listing);
-  }
+  res.json(req.listing);
   /* send back the listing as json from the request */
 };
 
 /* Update a listing */
 module.exports.update = function(req, res) {
   /* Replace the article's properties with the new properties found in req.body */
+  var props = req.body;
+  var id = new mongoose.Types.ObjectId(req.params.listingID);
+  Listing.findByIdAndUpdate({_id: id}, props, function(err, listing){
+    if(err){
+      res.status(404).send(err);
+    } else {
+      res.json(listing);
+    }
+  });
   /* save the coordinates (located in req.results if there is an address property) */
+  
   /* Save the article */
 };
 
 /* Delete a listing */
 module.exports.delete = function(req, res) {
-  var listing = req.listing;
-  
+  var id = new mongoose.Types.ObjectId(req.params.listingID);
+  Listing.findByIdAndRemove(id, function(err, listing){
+    if(err){
+      res.status(404).send(err);
+    } else {
+      res.json(listing);
+  }});
   /* Remove the article */
 };
 
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 module.exports.list = function(req, res) {
   /* Your code here */
-  var listingData = Listing.find({}, function(err, listing){
+  console.log('Finding Listings');
+  Listing.find({}, function(err, listing){
     if(err){
       res.status(404).send(err);
     } else {
-      res.listingData[i] = listing;
-  }}).json();
-  if(err){
-    res.status(404).send(err);
-  } else {
-    res.json(listingData);
-  }
+      res.json(listing);
+  }});
 };
 
 
@@ -84,8 +90,8 @@ module.exports.list = function(req, res) {
         bind it to the request object as the property 'listing', 
         then finally call next
  */
-module.exports.listingByID = function(req, res, next, id) {
-  Listing.findById(id).exec(function(err, listing) {
+module.exports.listingByID = function(req, res, next, _id) {
+  Listing.findById(_id, function(err, listing) {
     if(err) {
       res.status(400).send(err);
     } else {
