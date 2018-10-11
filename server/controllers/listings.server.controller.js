@@ -15,15 +15,19 @@ var mongoose = require('mongoose'),
 
 /* Create a listing */
 module.exports.create = function(req, res) {
+
   /* Instantiate a Listing */
   var listing = new Listing(req.body);
-  /* save the coordinates (located in req.results if there is an address property) */
+
+//save the coordinates (located in req.results if there is an address property) 
   if(req.results) {
     listing.coordinates = {
       latitude: req.results.lat, 
       longitude: req.results.lng
     };
   }
+  
+
   /* Then save the listing */
   listing.save(function(err) {
     if(err) {
@@ -48,6 +52,7 @@ module.exports.update = function(req, res) {
   var id = new mongoose.Types.ObjectId(req.params.listingID);
   Listing.findByIdAndUpdate({_id: id}, props, function(err, listing){
     if(err){
+      console.log(err);
       res.status(404).send(err);
     } else {
       res.json(listing);
@@ -61,11 +66,12 @@ module.exports.update = function(req, res) {
 /* Delete a listing */
 module.exports.delete = function(req, res) {
   var id = new mongoose.Types.ObjectId(req.params.listingID);
-  Listing.findByIdAndRemove(id, function(err, listing){
+  Listing.findByIdAndRemove(id, function(err){
     if(err){
+      console.log(err);
       res.status(404).send(err);
     } else {
-      res.json(listing);
+      res.send('Listing deleted');
   }});
   /* Remove the article */
 };
@@ -76,6 +82,7 @@ module.exports.list = function(req, res) {
   console.log('Finding Listings');
   Listing.find({}, function(err, listing){
     if(err){
+      console.log(err);
       res.status(404).send(err);
     } else {
       res.json(listing);
@@ -93,6 +100,7 @@ module.exports.list = function(req, res) {
 module.exports.listingByID = function(req, res, next, _id) {
   Listing.findById(_id, function(err, listing) {
     if(err) {
+      console.log(err);
       res.status(400).send(err);
     } else {
       req.listing = listing;

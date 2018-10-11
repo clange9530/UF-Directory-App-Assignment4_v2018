@@ -74,6 +74,19 @@ A final note: **order matters** when using middleware. If you place `app.use()` 
 
 If the concept of middleware is still confusing, you can read [this blog post](https://www.safaribooksonline.com/blog/2014/03/10/express-js-middleware-demystified/) for further information. 
 
+### Open Cage Data - Open Source Map & Geocoding API
+For this assignment, we will be using the Open Cage Data - Open Source Map & Geocoding API to retreive coordinates for each building we add to our database.
+
+Sign-up for a free public key https://opencagedata.com/ you will add this to your config file. 
+
+If you are interested in learning more about this api visit
+https://opencagedata.com/api#intro
+
+If you want to play around with it check out the tutorial and demo to see how it works
+https://opencagedata.com/code#tutorials
+https://opencagedata.com/demo
+
+
 ## Assignment Details
 Now go ahead and clone this assignment's repository. You'll notice that the file structure of the application is now more involved than previous assignments. Browse around and take note of where each part of the application exists. 
 
@@ -92,11 +105,15 @@ Create a diagram of how the different parts of the server interact with one anot
 
 1. Implement the listings.server.model.js file
   - You'll notice that this looks a lot like the ListingSchema.js file from Bootcamp Assignment #3 because it is exactly the same.
-2. Implement the request handlers in `listings.server.controller.js`
+2. Update your config file using the config.example.js
+    - Add in your Mlab URI
+    - Sign-up for a free public key https://opencagedata.com/ and add it to your config file - This key will allow us to access opencagedata's geocoding api to retreive coordinates for each building
+3. Implement the request handlers in `listings.server.controller.js`
+    - update, delete, list
     - test your implementation by running the tests found in `listings.server.routes.test.js`
-3. Complete the app configuration in `express.js`. 
+4. Complete the app configuration in `express.js`. 
     - serve the static files found in the public folder when a user makes a request to the path `/`. [Refer to this documentation](http://expressjs.com/en/starter/static-files.html) for help
     - use the listings router for requests going to the `/api/listings` path 
     - direct users to the client side `index.html` file for requests to any other path
-4. Make sure your server is functioning correctly by starting it up by running the command `node server.js`
+5. Make sure your server is functioning correctly by starting it up by running the command `node server.js` 
 

@@ -10,14 +10,14 @@ var listings = require('../controllers/listings.server.controller.js'),
  */
 router.route('/')
   .get(listings.list)
-  .post(getCoordinates, listings.create);
+  .post(listings.create);
 
 /*
   The ':' specifies a URL parameter. 
  */
 router.route('/:listingsId')
   .get(listings.read)
-  .put(getCoordinates, listings.update)
+  .put(listings.update)
   .delete(listings.delete);
 
 /*

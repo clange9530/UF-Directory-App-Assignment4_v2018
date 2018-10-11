@@ -24,7 +24,7 @@ describe('Listings CRUD tests', function() {
       .end(function(err, res) {
         should.not.exist(err);
         should.exist(res);
-        res.body.should.have.length(147);
+        res.body.should.have.length(146);
         done();
       });
   });
@@ -37,7 +37,7 @@ describe('Listings CRUD tests', function() {
           .expect(200)
           .end(function(err, res) {
             should.not.exist(err);
-            should.exist(res.body);
+            should.exist(res);
             res.body.name.should.equal('Library West');
             res.body.code.should.equal('LBW');
             res.body.address.should.equal('1545 W University Ave, Gainesville, FL 32603, United States');
@@ -109,10 +109,7 @@ describe('Listings CRUD tests', function() {
       Listing.remove({_id: id}, function(err){
         if(err) throw err;
         done();
-      })
-    }
-    else {
-        done();
-    }
-  });
+      }); 
+    }else done();
+  }); 
 });

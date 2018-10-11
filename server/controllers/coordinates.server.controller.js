@@ -3,12 +3,19 @@ var config = require('../config/config'),
 
 module.exports = function(req, res, next) {
   if(req.body.address) {
-    var options = {
-      key: config.googleMaps.key, 
-      address: req.body.address
+    var addressTemp = req.body.address;
+      var addressTemp2 = addressTemp.toLowerCase();
+      var addressTemp3 = addressTemp2.replace(/\s/g, "%20");
+      var addressTemp4 = addressTemp3.replace(/,/g , "%2C");
+      
+    var options = { 
+      q: addressTemp4,
+      key: config.openCage.key,  
+      language: 'en',
+      pretty: 1
     }
     request({
-      url: 'https://maps.googleapis.com/maps/api/geocode/json', 
+      url: 'https://api.opencagedata.com/geocode/v1/json', 
       qs: options
       }, function(error, response, body) {
         if(error) {
@@ -16,7 +23,7 @@ module.exports = function(req, res, next) {
         } 
 
         var data = JSON.parse(body);
-        req.results = data.results[0].geometry.location;
+        req.results = data.results[0].geometry;
         next();
     });
   } else {
