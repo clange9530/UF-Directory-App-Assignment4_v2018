@@ -7,7 +7,7 @@ module.exports = {
     uri: "mongodb://user2:user2password@ds243212.mlab.com:43212/ufwebapp", //place the URI of your mongo database here.
   }, 
   openCage: {
-    key: ''
+    key: '3678fb60140149ff9e6bea089515e277'
   },
   port: 8080
 };
