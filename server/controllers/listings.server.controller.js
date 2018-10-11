@@ -47,19 +47,29 @@ module.exports.read = function(req, res) {
 
 /* Update a listing */
 module.exports.update = function(req, res) {
+  var listing = req.listing;
+  listing = {
+    code: req.body.code,
+    name: req.body.name,
+    address: req.body.address,
+  };
   /* Replace the article's properties with the new properties found in req.body */
-  var props = req.body;
-  var id = new mongoose.Types.ObjectId(req.params.listingID);
-  Listing.findByIdAndUpdate({_id: id}, props, function(err, listing){
-    if(err){
+  if(req.results) {
+    listing.coordinates = {
+      latitude: req.results.lat, 
+      longitude: req.results.lng
+    };
+  }
+  /* save the coordinates (located in req.results if there is an address property) */
+  var id = new mongoose.Types.ObjectId(listing.listingID);
+  Listing.findByIdAndUpdate({_id: id}, listing, function(err) {
+    if(err) {
       console.log(err);
       res.status(404).send(err);
     } else {
-      res.json(listing);
+      res.send('Listing updated');
     }
   });
-  /* save the coordinates (located in req.results if there is an address property) */
-  
   /* Save the article */
 };
 
